@@ -3,15 +3,26 @@
     "author": "Filip Miletic",
     "variables":
     {
-        "fg": "#B6A997",
-        "active": "#FF0086"
+    "fg": "#B6A997",
+    //"fg": "#A3958D",
+    "active": "#FF0086",
+    "variables": "#c8d4ec",
+    "sand " : "hsla(39, 12, 94, 1)",
+    "stone" : "hsla(230, 30, 22, 1)",
+    "leaf " : "hsla(120, 120, 75, 1.0)",
+    "water" : "hsla(236, 84, 40, 1)",
+    "rose " : "hsla(4, 70, 40, 1.0)",
+    "wood " : "hsla(26, 80, 40, 1)",
+    "blossom" : "hsl(318, 42, 42, 1)",
+    "sky " : "hsl(200, 80, 63, 1)",
+    "teal" : "hsl(134, 51, 73, 1)",
     },
     "globals":
     {
         "foreground":                  "var(fg)",
-        "background":                  "#121519",
+        "background":                  "#111415",
         "caret":                       "var(active)",
-        "line_highlight":              "#ffffff0a",
+        "line_highlight":              "#1e1e1eFF",
         "misspelling":                 "#f00",
         "selection":                   "#00000ff",
         "selection_border_width":      "0",
@@ -25,12 +36,13 @@
         "bracket_contents_foreground": "var(active)",
         "tags_options":                "foreground",
         "tags_foreground":             "var(active)",
+        "gutter_foreground":           "#90909032"
     },
     "rules":
     [
         {"name":       "Comments",
          "scope":      "comment, punctuation.definition.comment, invalid comment",
-         "foreground": "#67DD5D"},
+         "foreground": "#30E340"},
 
         {"name":       "Strings",
          "scope":      "string",
@@ -78,11 +90,19 @@
          "foreground": "#CCE8D3"},
 
         { "name": "Variable", 
-          "scope": "variable, variable.other",
+          "scope": "variable",
+          "foreground": "var(variables)" },
+
+        { "name": "Variable", 
+          "scope": "variable.other",
           "foreground": "var(fg)" },
 
         { "name": "Function arguments",
-          "scope": "variable.parameter, variable.function",
+          "scope": "variable.parameter",
+          "foreground": "var(variables)" },
+
+        { "name": "Function arguments",
+          "scope": "variable.function",
           "foreground": "var(fg)" },
 
         {"name":       "Inherited class",

@@ -1,9 +1,5 @@
 ;;; -*- lexical-binding: t -*-
-;; Most important packages:
-;; - ripgrep w/ deadgrep          }
-;; - fd w/ find-file-in-project   } both require cargo(rust)
-;; - paredit
-;; - amx
+
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives
@@ -29,6 +25,12 @@
 (set-keyboard-coding-system 'utf-8)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
+(setq default-directory "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(let ((default-directory  "~/.emacs.d/lisp/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
 (setq use-package-always-ensure t)
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
@@ -41,6 +43,7 @@
 (line-number-mode    1)
 (column-number-mode  1)
 (blink-cursor-mode   1)
+
 (setq-default indent-tabs-mode nil
               tab-width 4
               require-final-newline t
@@ -74,21 +77,24 @@
       initial-major-mode 'fundamental-mode
       make-backup-files nil
       create-lockfiles nil
-      frame-title-format (list "%b")
+      frame-title-format (list "EMACS")
       read-process-output-max (* 1024 1024)
       gc-cons-threshold 100000000
       blink-cursor-blinks 7
       window-combination-resize t
-      shift-select-mode nil)
-(setq lazy-highlight-initial-delay 0)
-(setq search-default-mode 'char-fold-to-regexp)
+      shift-select-mode nil
+      lazy-highlight-initial-delay 0
+      search-default-mode 'char-fold-to-regexp)
 
-
-(global-set-key (kbd "M-o") 'open-previous-line)
 ;; -----------------------------------------------------------------------------
 ;; fonts & aesthetics
-(setq-default line-spacing 1)
-(set-frame-font "Ubuntu Mono-12")
+(set-face-attribute 'default nil :font "Consolas-18")
+
+(defun my/disable-scroll-bars (frame)
+  (modify-frame-parameters frame
+                           '((vertical-scroll-bars . nil)
+                             (horizontal-scroll-bars . nil))))
+(add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 
 (defun disable-all-themes ()
   (dolist (i custom-enabled-themes)
@@ -96,7 +102,70 @@
 
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
-(load-theme 'aftereight t)
+
+(require 'elemental-theme)
+(enable-theme 'elemental-theme)
+;; ####################################################################################
+
+(eval-and-compile
+  (defun my-blend-colors (basecolor mixcolor percent)
+    "Mix two colors."
+    (require 'color)
+    (cl-destructuring-bind (r g b) (color-name-to-rgb basecolor)
+      (cl-destructuring-bind (r2 g2 b2) (color-name-to-rgb mixcolor)
+        (let* ((x (/ percent 100.0))
+               (y (- 1 x)))
+          (color-rgb-to-hex (+ (* r y) (* r2 x)) (+ (* g y) (* g2 x)) (+ (* b y) (* b2 x))))))))
+
+(defmacro my-elemental-theme-apply-colors
+    (bg-base fg-base accent-1 accent-2 accent-3 accent-4 red orange green blue)
+  (declare (indent defun))
+  (let* ((brightness-bg (caddr (apply 'color-rgb-to-hsl (color-name-to-rgb bg-base))))
+         (brightness-fg (caddr (apply 'color-rgb-to-hsl (color-name-to-rgb fg-base))))
+         (mode          (if (< brightness-bg brightness-fg) 'dark 'light))
+         (bright-bg     (my-blend-colors bg-base fg-base (if (eq mode 'dark) 15 6)))
+         (brighter-bg   (my-blend-colors bg-base fg-base (if (eq mode 'dark) 30 12)))
+         (darker-fg     (my-blend-colors fg-base bg-base (if (eq mode 'dark) 74 84)))
+         (dark-fg       (my-blend-colors fg-base bg-base (if (eq mode 'dark) 37 42)))
+         (bright-fg     (my-blend-colors fg-base bg-base (if (eq mode 'dark) -30 -12))))
+    `(progn
+       (custom-theme-set-variables 'elemental-theme '(frame-background-mode ',mode))
+       ,(when (eq window-system 'ns)
+          `(set-frame-parameter nil 'ns-appearance ',mode))
+       (set-face-background 'default ,bg-base)
+       (set-face-background 'cursor ,fg-base)
+       (set-face-background 'elemental-bright-bg-face ,bright-bg)
+       (set-face-background 'elemental-brighter-bg-face ,brighter-bg)
+       (set-face-foreground 'elemental-darker-fg-face ,darker-fg)
+       (set-face-foreground 'elemental-dark-fg-face ,dark-fg)
+       (set-face-foreground 'default ,fg-base)
+       (set-face-foreground 'elemental-bright-fg-face ,bright-fg)
+       (set-face-foreground 'elemental-accent-fg-1-face ,accent-1)
+       (set-face-foreground 'elemental-accent-fg-2-face ,accent-2)
+       (set-face-foreground 'elemental-accent-fg-3-face ,accent-3)
+       (set-face-foreground 'elemental-accent-fg-4-face ,accent-4)
+       (set-face-foreground 'elemental-red-fg-face ,red)
+       (set-face-foreground 'elemental-orange-fg-face ,orange)
+       (set-face-foreground 'elemental-green-fg-face ,green)
+       (set-face-foreground 'elemental-blue-fg-face ,blue)
+;; Liking my comments green shrug shrug
+       (set-face-foreground 'font-lock-comment-face ,green)
+       (set-face-foreground 'font-lock-comment-delimiter-face ,green)
+       (set-face-foreground 'font-lock-doc-face ,green)
+       (set-face-foreground 'font-lock-string-face ,orange)
+       (run-hooks 'my-elemental-theme-change-palette-hook))))
+
+;; Late night hacking pallet
+(my-elemental-theme-apply-colors
+ "#0a1116" "#899a97" "#729fcf" "#c4dde8" "#49c9be" "#a49bfa"
+ "#fe5450" "#d1a663" "#34cd4a" "#729fcf")
+
+;; ####################################################################################
+
+(defun maximize-frame ()
+  "Maximize the current frame"
+  (interactive)
+  (w32-send-sys-command 61488))
 
 (defvar newline-and-indent t)
 (defun open-previous-line (arg)
@@ -109,11 +178,11 @@
 
 (defun post-load-stuff ()
   (interactive)
+  (maximize-frame)
   (set-cursor-color "#ff0048"))
 (add-hook 'window-setup-hook 'post-load-stuff t)
 
 (defun my-c-mode-common-hook ()
-  "My C Mode Common Hook that force 2 spaces indent with Google's style"
   (c-set-style "bsd")
   (electric-pair-mode)
   (setq-default tab-width 4)
@@ -122,31 +191,14 @@
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 (add-hook 'c++-mode-common-hook 'my-c-mode-common-hook)
 
-(defun recentf-open-files+ ()
-  "Use `completing-read' to open a recent file."
-  (interactive)
-  (let ((files (mapcar 'abbreviate-file-name recentf-list)))
-    (find-file (completing-read "Find recent file: " files nil t))))
-
-(bind-key* (kbd "C-c C-b") #'recentf-open-files+)
 (global-set-key [(control s)] 'isearch-forward-regexp)
 (global-set-key [(control r)] 'isearch-backward-regexp)
 (global-set-key [(meta %)] 'query-replace-regexp)
-(global-set-key [(control o)] 'other-window)
-(global-set-key (kbd "C-z") 'undo)
+(global-set-key [(control z)] 'undo)
+(global-set-key [(meta o)] 'open-previous-line)
 ;; -----------------------------------------------------------------------------
-
-(use-package exec-path-from-shell
-  :defer 5
-  :init (exec-path-from-shell-initialize))
-
-(use-package amx
-  :init (amx-mode 1))
-(add-hook 'minibuffer-setup-hook
-          (lambda () (setq truncate-lines t)))
-
-(use-package undo-tree
-  :bind ("C-x C-u" . undo-tree-mode))
+;; (use-package undo-tree
+;;   :bind ("C-x C-u" . undo-tree-mode))
 
 (use-package paredit
   :diminish paredit-mode
@@ -167,6 +219,10 @@
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
+(add-hook 'c++-mode-hook 'tree-sitter-hl-mode)
+(add-hook 'c-mode-hook 'tree-sitter-hl-mode)
+
+
 (use-package rainbow-delimiters
   :config
   (dolist (m '(clojure-mode-hook
@@ -176,55 +232,16 @@
                racket-repl-mode-hook
                scheme-mode-hook
                lisp-mode-hook
-               c++-mode-hook
+               ;;c++-mode-hook
                eval-expression-minibuffer-setup-hook))
     (add-hook m #'rainbow-delimiters-mode)))
 
 (use-package diminish
   :ensure t)
-
-(use-package dumb-jump
-  :after prog-mode
-  :custom ((dumb-jump-force-searcher 'rg))
-  :config
-  (setq dumb-jump-aggressive t)
-  :bind (:map prog-mode-map
-              ("M-[" . dumb-jump-go)
-              ("M-]" . dumb-jump-back)))
-
-(setq hippie-expand-try-functions-list '(try-expand-dabbrev-visible
-			                             try-expand-dabbrev
-			                             try-expand-dabbrev-all-buffers
-			                             try-expand-dabbrev-from-kill
-			                             try-complete-file-name
-			                             try-complete-file-name-partially))
-(global-set-key (kbd "M-/") 'hippie-expand )
-
-(use-package magit
-  :defer t
-  :bind ("C-x g" . magit-status)
-  :custom ((magit-diff-refine-hunk t)))
-
-(use-package fd-dired
-  :if (executable-find "fd")
-  :init
-  (defalias '+dired/find-program 'fd-dired)
-  :commands fd-dired
-  :config
-  (setq fd-dired-pre-fd-args "-0 -c never -I"
-        fd-dired-ls-option '("| xargs -0 ls -alhdN" . "-ld"))
-  (bind-key* (kbd "C-c C-f") #'fd-dired))
-
-(use-package deadgrep
-  :ensure t
-  :config (bind-key* (kbd "C-c C-p") #'deadgrep))
-
-(add-hook 'minibuffer-setup-hook
-          (lambda () (setq truncate-lines t)))
-
 (when (fboundp 'native-compile-async)
   (setq comp-deferred-compilation t
         comp-deferred-compilation-black-list '("/mu4e.*\\.el$")))
+
 
 ;; -----------------------------------------------------------------------------
 ;; Local Variables:
