@@ -148,17 +148,23 @@
        (set-face-foreground 'elemental-orange-fg-face ,orange)
        (set-face-foreground 'elemental-green-fg-face ,green)
        (set-face-foreground 'elemental-blue-fg-face ,blue)
-;; Liking my comments green shrug shrug
+       ;; Liking my comments green shrug shrug
        (set-face-foreground 'font-lock-comment-face ,green)
        (set-face-foreground 'font-lock-comment-delimiter-face ,green)
        (set-face-foreground 'font-lock-doc-face ,green)
        (set-face-foreground 'font-lock-string-face ,orange)
+       (set-face-foreground 'font-lock-function-name-face "#f0f0f0")
        (run-hooks 'my-elemental-theme-change-palette-hook))))
 
 ;; Late night hacking pallet
+;; (my-elemental-theme-apply-colors
+;;  "#0a1116" "#8ea29e" "#729fcf" "#c4ddd8" "#49c9be" "#a49bfa"
+;;  "#fe5450" "#d1a663" "#34cd4a" "#729fcf")
+
+;; Naysay
 (my-elemental-theme-apply-colors
- "#0a1116" "#899a97" "#729fcf" "#c4dde8" "#49c9be" "#a49bfa"
- "#fe5450" "#d1a663" "#34cd4a" "#729fcf")
+ "#111415" "#B2A895" "#9BB7C9" "#f0f0f0" "PaleGreen3" "#49c9af"
+ "#ff4450" "#2fd8c6" "#34cf4a" "#86B7e9")
 
 ;; ####################################################################################
 
