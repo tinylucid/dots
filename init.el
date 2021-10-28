@@ -88,7 +88,7 @@
 
 ;; -----------------------------------------------------------------------------
 ;; fonts & aesthetics
-(set-face-attribute 'default nil :font "Consolas-18")
+(set-face-attribute 'default nil :font "Cascadia Mono-17")
 
 (defun my/disable-scroll-bars (frame)
   (modify-frame-parameters frame
@@ -103,8 +103,26 @@
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
 
-(require 'elemental-theme)
-(enable-theme 'elemental-theme)
+;; (require 'modus-themes)  
+;; (setq modus-themes-slanted-constructs nil
+;;       modus-themes-bold-constructs nil
+;;       modus-themes-no-mixed-fonts t
+;;       modus-themes-subtle-line-numbers t
+;;       modus-themes-syntax '(faint yellow-comments green-strings alt-syntax)
+;;       modus-themes-paren-match 'intense-bold
+;;       modus-themes-region 'bg-only
+;;       modus-themes-org-blocks 'gray-background)
+
+;; (setq modus-themes-vivendi-color-overrides
+;;       '((bg-main . "#0d1011")
+;;         (fg-main . "#c2c2c2")))
+
+;;(modus-themes-load-themes)                             ;; 5
+;;(modus-themes-load-vivendi)
+(use-package brutal-theme
+  :config (load-theme 'brutal-dark t))
+;;(require 'elemental-theme)
+;;(enable-theme 'elemental-theme)
 ;; ####################################################################################
 
 (eval-and-compile
@@ -162,9 +180,9 @@
 ;;  "#fe5450" "#d1a663" "#34cd4a" "#729fcf")
 
 ;; Naysay
-(my-elemental-theme-apply-colors
- "#111415" "#B2A895" "#9BB7C9" "#f0f0f0" "PaleGreen3" "#49c9af"
- "#ff4450" "#2fd8c6" "#34cf4a" "#86B7e9")
+;; (my-elemental-theme-apply-colors
+;;  "#051417" "#B2A895" "#9BB7C9" "#f0f0f0" "PaleGreen3" "#49c9af"
+;;  "#ff4450" "#2fd8c6" "#40C040" "#86B7e9")
 
 ;; ####################################################################################
 
@@ -203,9 +221,14 @@
 (global-set-key [(control z)] 'undo)
 (global-set-key [(meta o)] 'open-previous-line)
 ;; -----------------------------------------------------------------------------
-;; (use-package undo-tree
-;;   :bind ("C-x C-u" . undo-tree-mode))
+(use-package undo-tree
+  :bind ("C-x C-u" . undo-tree-mode))
+(setq lazy-highlight-buffer t)
+(setq lazy-highlight-cleanup t)
 
+(setq ctrlf-show-match-count-at-eol nil)
+(use-package ctrlf)
+(ctrlf-mode +1)
 (use-package paredit
   :diminish paredit-mode
   :config
@@ -224,9 +247,6 @@
 (use-package highlight-numbers
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
-
-(add-hook 'c++-mode-hook 'tree-sitter-hl-mode)
-(add-hook 'c-mode-hook 'tree-sitter-hl-mode)
 
 
 (use-package rainbow-delimiters
@@ -248,7 +268,7 @@
   (setq comp-deferred-compilation t
         comp-deferred-compilation-black-list '("/mu4e.*\\.el$")))
 
-
+(use-package magit)
 ;; -----------------------------------------------------------------------------
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars noruntime)
