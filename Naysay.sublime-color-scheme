@@ -3,26 +3,25 @@
     "author": "Filip Miletic",
     "variables":
     {
-    "fg": "#B6A997",
-    //"fg": "#A3958D",
+    "fg": "#B9aea3",
     "active": "#FF0086",
     "variables": "#c8d4ec",
-    "sand " : "hsla(39, 12, 94, 1)",
-    "stone" : "hsla(230, 30, 22, 1)",
-    "leaf " : "hsla(120, 120, 75, 1.0)",
-    "water" : "hsla(236, 84, 40, 1)",
-    "rose " : "hsla(4, 70, 40, 1.0)",
-    "wood " : "hsla(26, 80, 40, 1)",
-    "blossom" : "hsl(318, 42, 42, 1)",
-    "sky " : "hsl(200, 80, 63, 1)",
-    "teal" : "hsl(134, 51, 73, 1)",
+    "sand " : "hsla(39, 12%, 94%, 1)",
+    "stone" : "hsla(230, 30%, 22%, 1)",
+    "leaf " : "hsla(120, 120%, 75%, 1)",
+    "water" : "hsla(236, 84%, 40%, 1)",
+    "rose " : "hsla(4, 70%, 40%, 1)",
+    "wood " : "hsla(26, 80%, 40%, 1)",
+    "blossom" : "hsla(218, 42%, 42%, 1)",
+    "sky " : "hsla(200, 80%, 63%, 1)",
+    "teal" : "hsla(164, 64%, 60%, 1)",
     },
     "globals":
     {
         "foreground":                  "var(fg)",
-        "background":                  "#111415",
+        "background":                  "#111111",
         "caret":                       "var(active)",
-        "line_highlight":              "#1e1e1eFF",
+        "line_highlight":              "#1a262a",
         "misspelling":                 "#f00",
         "selection":                   "#00000ff",
         "selection_border_width":      "0",
@@ -42,7 +41,7 @@
     [
         {"name":       "Comments",
          "scope":      "comment, punctuation.definition.comment, invalid comment",
-         "foreground": "#30E340"},
+         "foreground": "#60c950"},
 
         {"name":       "Strings",
          "scope":      "string",
@@ -54,7 +53,7 @@
 
         {"name":       "Constants",
          "scope":      "constant, punctuation.definition.constant",
-         "foreground": "#89E2A1"},
+         "foreground": "var(teal)"},
 
         {"name":       "Definitions",
          "scope":      "entity.name, entity.name.tag",
