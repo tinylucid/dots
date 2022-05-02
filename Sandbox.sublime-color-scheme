@@ -1,0 +1,140 @@
+{
+    "name": "Sandbox",
+    "author": "Filip Miletic",
+    "variables":
+    {
+    //"fg": "#8DAFB2",
+    "fg": "#d2d2d2",
+    "active": "#FF0086",
+    "variables": "#c8d4ec",
+    "sand " : "hsla(39, 12%, 94%, 1)",
+    "stone" : "hsla(230, 30%, 22%, 1)",
+    "leaf " : "hsla(120, 120%, 75%, 1)",
+    "water" : "hsla(236, 84%, 40%, 1)",
+    "rose " : "hsla(4, 70%, 40%, 1)",
+    "wood " : "hsla(26, 80%, 40%, 1)",
+    "blossom" : "hsla(218, 42%, 42%, 1)",
+    "sky " : "hsla(200, 80%, 63%, 1)",
+    "teal" : "hsla(164, 43%, 61%, 1)",
+    },
+    "globals":
+    {
+        "foreground":                  "var(fg)",
+        "background":                  "#151515",
+        "caret":                       "var(active)",
+        "line_highlight":              "#1a262a",
+        "misspelling":                 "#f00",
+        "selection":                   "#00000ff",
+        "selection_border_width":      "0",
+        "selection_corner_radius":     "1",
+        "highlight":                   "var(active)",
+        "find_highlight_foreground":   "#000",
+        "find_highlight":              "var(active)",
+        "brackets_options":            "foreground",
+        "brackets_foreground":         "var(active)",
+        "bracket_contents_options":    "foreground",
+        "bracket_contents_foreground": "var(active)",
+        "tags_options":                "foreground",
+        "tags_foreground":             "var(active)",
+        "gutter_foreground":           "#90909032"
+    },
+    "rules":
+    [
+        {"name":       "Comments",
+         "scope":      "comment, punctuation.definition.comment, invalid comment",
+         "foreground": "#5ac950"},
+
+        {"name":       "Strings",
+         "scope":      "string",
+         "foreground": "#BFD084"},
+        
+        {"name":       "Escapes \n",
+         "scope":      "constant.character.escape, constant.other.placeholder",
+         "background": "#ffffff10"},
+
+        {"name":       "Constants",
+         "scope":      "constant, punctuation.definition.constant",
+         "foreground": "#7AD9FB"},
+
+        {"name":       "Definitions",
+         "scope":      "entity.name, entity.name.tag",
+         "foreground": "#FFFFFF"},
+
+        {"name":       "Keyword",
+         "scope":      "keyword, keyword.operator",
+         "foreground": "#A390FF"},
+
+        {"name":       "Storage type",
+         "scope":      "storage.type",
+         "foreground": "#A390FF"},
+
+        {"name":       "Storage",
+         "scope":      "storage",
+         "foreground": "#A390FF"},
+
+        // { "name": "Library type", "scope": "support.type, entity.name.type.object.console", "foreground": "#89E2A1" },
+        { "name": "Support variables", "scope": "support.variable", "foreground": "#E2E2E2" },
+        // { "name": "Library type property", "scope": "support.type.property-name", "font_style": "normal", "foreground": "#89E2A1" },
+        // { "name": "Library class", "scope": "support.class", "foreground": "#89E2A1" },
+
+        {"name":       "Variable language",
+         "scope":      "variable.language",
+         "foreground": "#E2E2E2"},
+
+        {"name":       "Entity name",
+         "scope":      "entity.name",
+         "foreground": "#A390FF"},
+
+        // {"name":       "Tag name",
+        //  "scope":      "entity.name.tag",
+        //  "foreground": "#BFD084"},
+
+        { "name": "Variable", 
+          "scope": "variable",
+          "foreground": "#E2E2E2" },
+
+        { "name": "Variable", 
+          "scope": "variable.other",
+          "foreground": "#E2E2E2" },
+
+        { "name": "Function arguments",
+          "scope": "variable.parameter",
+          "foreground": "#E2E2E2" },
+
+        { "name": "Function arguments",
+          "scope": "variable.function",
+          "foreground": "#e2e2e2" },
+
+        {"name":       "Inherited class",
+         "scope":      "entity.other.inherited-class",
+         "foreground": "#89E2A1"},
+
+        {"name":       "Punctuation",
+         "scope":      "punctuation - punctuation.section, keyword.operator, string punctuation.section",
+         "foreground": "#b3e8b4"},
+
+        {"name":       "Inner brackets",
+         "scope":      "meta.parens meta.parens punctuation.section, meta.parens meta.brackets punctuation.section, meta.parens meta.braces punctuation.section, meta.brackets meta.parens punctuation.section, meta.brackets meta.brackets punctuation.section, meta.brackets meta.braces punctuation.section, meta.braces meta.parens punctuation.section, meta.braces meta.brackets punctuation.section, meta.braces meta.braces punctuation.section",
+         "foreground": "color(var(fg) alpha(0.4))"},
+
+        {"name":       "Mistakes",
+         "scope":      "invalid, invalid string, invalid constant, invalid entity.name, invalid punctuation, invalid source.symbol",
+         "foreground": "#c33",
+         "background": "#2B1D1E"},
+         
+        {"scope": "markup.inserted",
+         "foreground": "hsl(100, 50%, 50%)"},
+
+        {"scope": "markup.deleted",
+         "foreground": "hsl(2, 65%, 50%)"},
+         
+        {"scope": "markup.changed",
+         "foreground": "hsl(30, 85%, 50%)"},
+
+        {"scope": "markup.ignored",
+         "foreground": "#aaa"},
+
+        {"scope": "markup.untracked",
+         "foreground": "#aaa"}
+    ]
+}
