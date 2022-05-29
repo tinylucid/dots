@@ -1,0 +1,71 @@
+// Documentation at https://www.sublimetext.com/docs/color_schemes.html
+{
+    "variables":
+    {
+        "blue3": "hsl(210, 7%, 11%)",
+        "blue6": "hsl(221, 12%, 53%)",
+        "blue11": "hsl(160, 46%, 54%)",
+        "green": "hsl(114, 21%, 58%)",
+        "taffy": "hsl(155, 30%, 65%)",
+        "bilboa": "#c6b6ee",
+        "magenta": "#a282ec",
+       "orange": "hsl(32, 81%, 69%)",
+    },
+    "globals":
+    {
+        "line_highlight": "hsl(210, 10%, 13%)",
+    },
+    "rules":
+    [
+        {
+            "name": "Number",
+            "scope": "constant.numeric",
+            "foreground": "var(blue11)"
+        },
+        {
+            "name": "Comment",
+            "scope": "comment, punctuation.definition.comment",
+            "foreground": "#56ca52"
+        },
+        {
+            "name": "Built-in constant",
+            "scope": "constant.language",
+            "foreground": "var(blue11)",
+        },
+        {
+            "name": "String",
+            "scope": "string",
+            "foreground": "var(blue5)"
+        },
+        {
+            "name": "Function argument",
+            "scope": "variable.parameter",
+            "foreground": "#bacafa"
+        },
+        {
+            "name": "Entity name",
+            "scope": "entity.name.function",
+            "foreground": "var(orange)"
+        },
+        {
+            "name": "Language variable",
+            "scope": "variable.language",
+            "foreground": "var(magenta)",
+        },
+        {
+            "name": "Built-in constant",
+            "scope": "constant.language",
+            "foreground": "var(blue11)",
+        },
+        {
+            "name": "Storage",
+            "scope": "storage",
+            "foreground": "var(magenta)"
+        },
+        {
+            "name": "Operators",
+            "scope": "keyword.operator",
+            "foreground": "var(blue6)"
+        },
+    ]
+}
