@@ -3,7 +3,7 @@
     "author": "Filip Miletic",
     "variables":
     {
-    "fg": "#B9aea3",
+    "fg": "#B0A997",
     "active": "#FF0086",
     "variables": "#c8d4ec",
     "sand " : "hsla(39, 12%, 94%, 1)",
@@ -19,7 +19,7 @@
     "globals":
     {
         "foreground":                  "var(fg)",
-        "background":                  "#111111",
+        "background":                  "#11191b",
         "caret":                       "var(active)",
         "line_highlight":              "#1a262a",
         "misspelling":                 "#f00",
@@ -41,11 +41,11 @@
     [
         {"name":       "Comments",
          "scope":      "comment, punctuation.definition.comment, invalid comment",
-         "foreground": "#60c950"},
+         "foreground": "#54c950"},
 
         {"name":       "Strings",
          "scope":      "string",
-         "foreground": "#62d0c8"},
+         "foreground": "#5bb7b0"},
         
         {"name":       "Escapes \n",
          "scope":      "constant.character.escape, constant.other.placeholder",
