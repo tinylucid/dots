@@ -1,33 +1,34 @@
 ;;; -*- lexical-binding: t -*-
-
-(require 'package)
 (setq package-enable-at-startup nil)
-(setq package-archives
-      '(("elpa" . "https://elpa.gnu.org/packages/")
-        ("melpa" . "http://melpa.org/packages/")))
 
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)
-  (warn "use-package is not installed, trying to install")
-  (package-install 'use-package))
-(require 'use-package)
-(defalias 'display-startup-echo-area-message #'ignore)
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-;; UTF-8 everywhere for everything
 (set-language-environment "UTF-8")
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+;; TODO: Deprecate this
+;; (require 'package)
+
+;; (setq package-archives
+;;       '(("elpa" . "https://elpa.gnu.org/packages/")
+;;         ("melpa" . "https://melpa.org/packages/")))
+
+;; (package-initialize)
+;; (when (not package-archive-contents)
+;;   (package-refresh-contents))
+
+;; (unless (package-installed-p 'use-package)
+;;   (warn "use-package is not installed, trying to install")
+;;   (package-install 'use-package))
+;;(require 'use-package)
+
+(defalias 'display-startup-echo-area-message #'ignore)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 (setq default-directory "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (let ((default-directory  "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
 
@@ -35,14 +36,40 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(transient-mark-mode 1)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+
+(use-package straight
+         :custom (straight-use-package-by-default t))
+
+(add-hook 'after-init-hook
+          #'(lambda ()
+              (setq gc-cons-threshold (* 100 1000 1000))))
+(add-hook 'focus-out-hook 'garbage-collect)
+(run-with-idle-timer 5 t 'garbage-collect)
+
+
 (tool-bar-mode       0)
 (menu-bar-mode       0)
 (scroll-bar-mode     0)
-(show-paren-mode     1)
+(show-paren-mode     0)
+
 (line-number-mode    1)
 (column-number-mode  1)
 (blink-cursor-mode   1)
+(transient-mark-mode 1)
 
 (setq-default indent-tabs-mode nil
               tab-width 4
@@ -67,7 +94,7 @@
       mouse-wheel-progressive-speed nil
       scroll-step 1
       scroll-conservatively 100000
-      scroll-margin 1
+      scroll-margin 3
       fringes-outside-margins 1
       make-backup-files nil
       auto-save-default nil
@@ -77,114 +104,19 @@
       initial-major-mode 'fundamental-mode
       make-backup-files nil
       create-lockfiles nil
-      frame-title-format (list "EMACS")
-      read-process-output-max (* 1024 1024)
-      gc-cons-threshold 100000000
       blink-cursor-blinks 7
       window-combination-resize t
       shift-select-mode nil
       lazy-highlight-initial-delay 0
       search-default-mode 'char-fold-to-regexp)
 
-;; -----------------------------------------------------------------------------
-;; fonts & aesthetics
-(set-face-attribute 'default nil :font "Cascadia Mono-17")
-
 (defun my/disable-scroll-bars (frame)
   (modify-frame-parameters frame
                            '((vertical-scroll-bars . nil)
                              (horizontal-scroll-bars . nil))))
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
-
-(defun disable-all-themes ()
-  (dolist (i custom-enabled-themes)
-    (disable-theme i)))
-
-(defadvice load-theme (before disable-themes-first activate)
-  (disable-all-themes))
-
-;; (require 'modus-themes)  
-;; (setq modus-themes-slanted-constructs nil
-;;       modus-themes-bold-constructs nil
-;;       modus-themes-no-mixed-fonts t
-;;       modus-themes-subtle-line-numbers t
-;;       modus-themes-syntax '(faint yellow-comments green-strings alt-syntax)
-;;       modus-themes-paren-match 'intense-bold
-;;       modus-themes-region 'bg-only
-;;       modus-themes-org-blocks 'gray-background)
-
-;; (setq modus-themes-vivendi-color-overrides
-;;       '((bg-main . "#0d1011")
-;;         (fg-main . "#c2c2c2")))
-
-;;(modus-themes-load-themes)                             ;; 5
-;;(modus-themes-load-vivendi)
-(use-package brutal-theme
-  :config (load-theme 'brutal-dark t))
-;;(require 'elemental-theme)
-;;(enable-theme 'elemental-theme)
-;; ####################################################################################
-
-(eval-and-compile
-  (defun my-blend-colors (basecolor mixcolor percent)
-    "Mix two colors."
-    (require 'color)
-    (cl-destructuring-bind (r g b) (color-name-to-rgb basecolor)
-      (cl-destructuring-bind (r2 g2 b2) (color-name-to-rgb mixcolor)
-        (let* ((x (/ percent 100.0))
-               (y (- 1 x)))
-          (color-rgb-to-hex (+ (* r y) (* r2 x)) (+ (* g y) (* g2 x)) (+ (* b y) (* b2 x))))))))
-
-(defmacro my-elemental-theme-apply-colors
-    (bg-base fg-base accent-1 accent-2 accent-3 accent-4 red orange green blue)
-  (declare (indent defun))
-  (let* ((brightness-bg (caddr (apply 'color-rgb-to-hsl (color-name-to-rgb bg-base))))
-         (brightness-fg (caddr (apply 'color-rgb-to-hsl (color-name-to-rgb fg-base))))
-         (mode          (if (< brightness-bg brightness-fg) 'dark 'light))
-         (bright-bg     (my-blend-colors bg-base fg-base (if (eq mode 'dark) 15 6)))
-         (brighter-bg   (my-blend-colors bg-base fg-base (if (eq mode 'dark) 30 12)))
-         (darker-fg     (my-blend-colors fg-base bg-base (if (eq mode 'dark) 74 84)))
-         (dark-fg       (my-blend-colors fg-base bg-base (if (eq mode 'dark) 37 42)))
-         (bright-fg     (my-blend-colors fg-base bg-base (if (eq mode 'dark) -30 -12))))
-    `(progn
-       (custom-theme-set-variables 'elemental-theme '(frame-background-mode ',mode))
-       ,(when (eq window-system 'ns)
-          `(set-frame-parameter nil 'ns-appearance ',mode))
-       (set-face-background 'default ,bg-base)
-       (set-face-background 'cursor ,fg-base)
-       (set-face-background 'elemental-bright-bg-face ,bright-bg)
-       (set-face-background 'elemental-brighter-bg-face ,brighter-bg)
-       (set-face-foreground 'elemental-darker-fg-face ,darker-fg)
-       (set-face-foreground 'elemental-dark-fg-face ,dark-fg)
-       (set-face-foreground 'default ,fg-base)
-       (set-face-foreground 'elemental-bright-fg-face ,bright-fg)
-       (set-face-foreground 'elemental-accent-fg-1-face ,accent-1)
-       (set-face-foreground 'elemental-accent-fg-2-face ,accent-2)
-       (set-face-foreground 'elemental-accent-fg-3-face ,accent-3)
-       (set-face-foreground 'elemental-accent-fg-4-face ,accent-4)
-       (set-face-foreground 'elemental-red-fg-face ,red)
-       (set-face-foreground 'elemental-orange-fg-face ,orange)
-       (set-face-foreground 'elemental-green-fg-face ,green)
-       (set-face-foreground 'elemental-blue-fg-face ,blue)
-       ;; Liking my comments green shrug shrug
-       (set-face-foreground 'font-lock-comment-face ,green)
-       (set-face-foreground 'font-lock-comment-delimiter-face ,green)
-       (set-face-foreground 'font-lock-doc-face ,green)
-       (set-face-foreground 'font-lock-string-face ,orange)
-       (set-face-foreground 'font-lock-function-name-face "#f0f0f0")
-       (run-hooks 'my-elemental-theme-change-palette-hook))))
-
-;; Late night hacking pallet
-;; (my-elemental-theme-apply-colors
-;;  "#0a1116" "#8ea29e" "#729fcf" "#c4ddd8" "#49c9be" "#a49bfa"
-;;  "#fe5450" "#d1a663" "#34cd4a" "#729fcf")
-
-;; Naysay
-;; (my-elemental-theme-apply-colors
-;;  "#051417" "#B2A895" "#9BB7C9" "#f0f0f0" "PaleGreen3" "#49c9af"
-;;  "#ff4450" "#2fd8c6" "#40C040" "#86B7e9")
-
-;; ####################################################################################
+(set-face-attribute 'default nil :font "Cascadia Mono-9.5")
+(load-theme 'naysay t)
 
 (defun maximize-frame ()
   "Maximize the current frame"
@@ -221,26 +153,17 @@
 (global-set-key [(control z)] 'undo)
 (global-set-key [(meta o)] 'open-previous-line)
 ;; -----------------------------------------------------------------------------
-(use-package undo-tree
-  :bind ("C-x C-u" . undo-tree-mode))
-(setq lazy-highlight-buffer t)
-(setq lazy-highlight-cleanup t)
+(use-package undo-tree)
 
 (setq ctrlf-show-match-count-at-eol nil)
 (use-package ctrlf)
 (ctrlf-mode +1)
+
 (use-package paredit
   :diminish paredit-mode
   :config
   (dolist (m '(clojure-mode-hook
-               cider-repl-mode-hook
-               clojure-mode-hook
                emacs-lisp-mode-hook
-               racket-mode-hook
-               racket-repl-mode-hook
-               scheme-mode-hook
-               slime-mode-hook
-               slime-repl-mode-hook
                eval-expression-minibuffer-setup-hook))
     (add-hook m #'paredit-mode)))
 
@@ -248,27 +171,43 @@
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
-
-(use-package rainbow-delimiters
-  :config
-  (dolist (m '(clojure-mode-hook
-               cider-repl-mode-hook
-               emacs-lisp-mode-hook
-               racket-mode-hook
-               racket-repl-mode-hook
-               scheme-mode-hook
-               lisp-mode-hook
-               ;;c++-mode-hook
-               eval-expression-minibuffer-setup-hook))
-    (add-hook m #'rainbow-delimiters-mode)))
-
 (use-package diminish
   :ensure t)
-(when (fboundp 'native-compile-async)
-  (setq comp-deferred-compilation t
-        comp-deferred-compilation-black-list '("/mu4e.*\\.el$")))
 
-(use-package magit)
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+  (setq vertico-scroll-margin 0)
+  (setq vertico-count 5)
+  (setq vertico-resize t)
+  ;; (setq vertico-cycle t)
+  )
+
+(use-package savehist
+  :ensure t
+  :init
+  (savehist-mode))
+
+(setq minibuffer-prompt-properties
+      '(read-only t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+(setq enable-recursive-minibuffers t)
+
+(use-package orderless
+  :ensure t
+  :init
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+(setq esup-depth 0)
+
+(use-package esup
+  :ensure t)
 ;; -----------------------------------------------------------------------------
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars noruntime)
