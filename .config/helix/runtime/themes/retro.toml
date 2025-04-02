@@ -1,0 +1,5 @@
+inherits = "base16_transparent"
+
+"ui.cursorline.primary" = { bg = "#111111" , underline = {} }
+"variable" = { fg = "#f0f0f0" }
+"comment" = { fg = "cyan" }

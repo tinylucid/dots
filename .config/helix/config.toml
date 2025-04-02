@@ -1,0 +1,13 @@
+theme = "dos"
+
+[editor]
+gutters = ["diagnostics", "diff"]
+mouse = true
+cursorline = true
+color-modes = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+

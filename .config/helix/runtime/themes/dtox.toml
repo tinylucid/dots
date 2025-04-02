@@ -1,0 +1,34 @@
+# Author : Tomas Ruud <git@me.2ms.no>
+
+"ui.selection" = { fg = "white", bg = "#4f46e5" }
+"ui.cursor" = { fg = "black", bg = "#ff0068" }
+"ui.cursor.primary" = { fg = "black", bg = "#ff0068" }
+"ui.cursor.match" = { fg = "black", bg = "#00ff00" }
+"ui.background.separator" = "gray"
+"ui.linenr" = "gray"
+"ui.linenr.selected" = { fg = "white", bg = "gray" }
+"ui.statusline" = { bg = "#222222", fg = "green" }
+"ui.statusline.inactive" = { bg = "#070707", fg = "white" }
+"ui.menu" = { fg = "white", bg = "black" }
+"ui.menu.selected" = { bg = "light-gray", fg = "black" }
+"ui.popup" = { fg = "white", bg = "black" }
+"ui.help" = { fg = "white", bg = "black" }
+"ui.virtual.ruler" = { underline = { style = "line"} }
+
+"string" = { fg = "light-magenta" }
+"constant" = { fg = "cyan" }
+"comment" = { fg = "light-green" }
+
+"diff.plus" = "green"
+"diff.minus" = "red"
+"diff.delta" = "gray"
+
+"warning" = { fg = "light-yellow" }
+"error" = { fg = "light-red" }
+"hint" = { fg = "light-blue" }
+
+"diagnostic.warning" = { modifiers = ["underlined"] }
+"diagnostic.error" = { modifiers = ["underlined"] }
+"diagnostic.hint" = { modifiers = ["underlined"] }
+"diagnostic.unnecessary" = { modifiers = ["dim"] }
+"diagnostic.deprecated" = { modifiers = ["crossed_out"] }

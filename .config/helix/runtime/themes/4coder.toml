@@ -1,0 +1,174 @@
+warning = { } # Editor warnings.
+error = { } # Editor errors, like mis-typing a command.
+info = { } # Contextual info in diagnostic messages (LSP).
+hint = { } # Code diagnostics hints (LSP).
+diagnostic = { } # Code diagnostics in editing area (LSP).
+
+'ui.background' = { }
+'ui.window' = { bg = '#131313', fg = "#131313"} 
+'ui.gutter' = { bg = '#0a0a0a' }
+
+'ui.text' = { fg = 'fg_green' } # Default text color.
+'ui.text.focus' = { fg = 'fg_green' } # Selection highlight in buffer-picker or file-picker.
+'ui.text.info' = { fg = 'fg_green' } # Info popup contents (space mode menu).
+
+'ui.cursor' = { fg = "#ff0068", modifiers = ["reversed"] }
+'ui.cursor.primary' = { fg = "#ff0068", modifiers = ["reversed"] }
+'ui.cursor.insert' = { fg = "#ff0068", modifiers = ["reversed"] }
+'ui.cursor.select' = { fg = "#ff0068", bg = "#222222",  modifiers = ["reversed"] }
+'ui.cursor.match' = { fg = "#00ff00", modifiers = ["reversed"] }
+
+'ui.selection' = { bg = "#222222" } # All currently selected text.
+'ui.selection.primary' = { bg = "#222222" } # The primary selection when there are multiple.
+
+'ui.linenr' = { fg = "#333333" } # Line numbers.
+'ui.linenr.selected' = { fg = "#555555" } # Current line number.
+
+'ui.virtual' = { } # Namespace for additions to the editing area.
+'ui.virtual.ruler' = { } # Vertical rulers (colored columns in editing area).
+'ui.virtual.whitespace' = { } # Whitespace markers in editing area.
+
+'ui.statusline' = { bg = "#222222" } # Status line.
+'ui.statusline.active' = { } # Status line in focused windows.
+'ui.statusline.inactive' = { bg = "#101010", fg = "fg_green" }   # Status line in unfocused windows.
+"ui.statusline.normal" = { bg = "black" } # Statusline mode during normal mode (only if editor.color-modes is enabled)
+"ui.statusline.insert" = { bg = "#ff0069", fg = "black" } # Statusline mode during insert mode (only if editor.color-modes is enabled)
+"ui.statusline.select" = { bg = "#00ff00", fg = "black" } # Statusline mode during select mode (only if editor.color-modes is enabled)
+
+'ui.help' = { bg = "#333333" } # `:command` descriptions above the command line.
+
+'ui.highlight' = { } # selected contents of symbol pickers (spc-s, spc-S) and current line in buffer picker (spc-b).
+
+'ui.menu' = { } # Autocomplete menu.
+'ui.menu.selected' = { } # Selected autocomplete item.
+
+'ui.popup' = { } # Documentation popups (space-k).
+'ui.popup.info' = { } # Info popups box (space mode menu).
+
+
+# SYNTAX HIGHLIGHTING ==============================
+# All the keys here are Treesitter scopes.
+
+'property' = { } # Regex group names.
+'special' = { } # Special symbols e.g `?` in Rust, `...` in Hare.
+'attribute' = { } # Class attributes, html tag attributes.
+
+'type' = { fg = "yellow" } # Variable type, like integer or string, including program defined classes, structs etc..
+'type.builtin' = { fg = "yellow" } # Primitive types of the language (string, int, float).
+'type.enum.variant' = { } # A variant of an enum.
+
+'constructor' = { } # Constructor method for a class or struct.
+
+'constant' = {  fg = "#50FF30" } # Constant value
+'constant.builtin' = {  fg = "#50FF30" } # Special constants like `true`, `false`, `none`, etc.
+'constant.builtin.boolean' = {  fg = "#50FF30" } # True or False.
+'constant.character' = {  fg = "#50FF30" } # Constant of character type.
+'constant.character.escape' = {  fg = "#50FF30" } # escape codes like \n.
+'constant.numeric'  = {  fg = "#50FF30" } # constant integer or float value.
+'constant.numeric.integer' = {  fg = "#50FF30" } # constant integer value.
+'constant.numeric.float' = {  fg = "#50FF30" } # constant float value.
+
+'string' = { fg = "#50FF30" } # String literal.
+'string.regexp' = { } # Regular expression literal.
+'string.special' = { } # Strings containing a path, URL, etc.
+'string.special.path' = { } # String containing a file path.
+'string.special.url' = { } # String containing a web URL.
+'string.special.symbol' = { } # Erlang/Elixir atoms, Ruby symbols, Clojure keywords.
+
+'comment' = { fg = "#2090F0" } # This is a comment.
+'comment.line' = {  fg = "#2090F0" } # Line comments, like this.
+'comment.block' = {  fg = "#2090F0" } # Block comments, like /* this */ in some languages.
+'comment.block.documentation' = {  fg = "#2090F0" } # Doc comments, e.g '///' in rust.
+
+'variable' = { } # Variable names.
+'variable.builtin' = { } # Language reserved variables: `this`, `self`, `super`, etc.
+'variable.parameter' = { } # Function parameters.
+'variable.other.member' = { } # Fields of composite data types (e.g. structs, unions).
+
+'label' = { fg = "yellow" } # Loop labels, among other things.
+
+'punctuation' = { fg = "fg_green" } # Any punctuation symbol.
+'punctuation.delimiter' = { } # Commas, colons or other delimiter depending on the language.
+'punctuation.bracket' = { fg = "yellow" } # Parentheses, angle brackets, etc.
+
+'keyword' = { fg = "white" } # Language reserved keywords.
+'keyword.control' = { fg = "white"} # Control keywords.
+'keyword.control.conditional' = { fg = "white" } # `if`, `else`, `elif`.
+'keyword.control.repeat' = { fg = "white" } # `for`, `while`, `loop`.
+'keyword.control.import' = { } # `import`, `export` `use`.
+'keyword.control.return' = { fg = "white" } # `return` in most languages.
+'keyword.control.exception' = { } # `try`, `catch`, `raise`/`throw` and related.
+'keyword.operator' = { } # `or`, `and`, `in`.
+'keyword.directive' = { } # Preprocessor directives (#if in C...).
+'keyword.function' = { } # The keyword to define a function: 'def', 'fun', 'fn'.
+
+'operator' = { fg = "yellow" } # Logical, mathematical, and other operators.
+
+'function' = { }
+'function.builtin' = { }
+'function.method' = { } # Class / Struct methods.
+'function.macro' = { fg = "white" }
+'function.special' = { fg = "white" } # Preprocessor function in C.
+
+'tag' = { } # As in <body> for html, css tags.
+'tag.error' = { } # Erroneous closing html tags.
+
+'namespace' = { } # Namespace or module identifier.
+
+
+# Markup ==============================
+# Colors for markup languages, like Markdown or XML.
+
+'markup.heading.1' = { } # Markdown heading 1 color.
+'markup.heading.2' = { } # Markdown heading 2 color.
+'markup.heading.3' = { } # Markdown heading 3 color.
+'markup.heading.4' = { } # Markdown heading 4 color.
+'markup.heading.5' = { } # Markdown heading 5 color.
+'markup.heading.6' = { } # Markdown heading 6 color.
+'markup.heading.marker' = { } # Hashtag color on Markdown headings.
+
+'markup.list' = { }
+'markup.list.numbered' = { } # Numbered list.
+'markup.list.unnumbered' = { } # Bullet point list.
+
+'markup.bold' = { } # Bold text.
+'markup.italic' = { } # Italicised text.
+
+'markup.link' = { }
+'markup.link.url' = { } # Urls pointed to by links.
+'markup.link.label' = { } # Non-URL link references.
+'markup.link.text' = { } # URL and image descriptions in links.
+
+'markup.quote' = { } # `> Quotes` in Markdown.
+
+
+# Markup - Interface ==============================
+# "These scopes are used for theming the editor interface."
+
+'markup.normal' = { }
+'markup.normal.completion' = { } # For completion doc popup ui.
+'markup.normal.raw' = { } # For hover popup ui.
+
+'markup.heading.completion' = { } # Headings for completion doc popup ui.
+'markup.heading.raw' = { } # Headings for hover popup ui.
+
+'markup.raw' = { } # Code block in Markdown.
+'markup.raw.block' = { } # Multiline (```) codeblock in Markdown.
+'markup.raw.inline' = { } # `Inline code block` in Markdown.
+'markup.raw.inline.completion' = { } # ?
+'markup.raw.inline.hover' = { } # ?
+
+# Diff ==============================
+# Version control changes.
+
+'diff.plus' = { } # Additions.
+'diff.minus' = { } # Deletions.
+'diff.delta' = { } # Modifications.
+'diff.delta.moved' = { } # Renamed or moved files.
+
+
+[palette] # Define your custom colors here.
+white = '#f0f0f0'
+black = '#0c0c0c'
+fg_green = '#90B080'
+yellow = "#D08F20"
