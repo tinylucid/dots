@@ -3,7 +3,9 @@
 "ui.cursor" = { fg = "black", bg = "#ff0068" }
 "ui.cursor.primary" = { fg = "black", bg = "#ff0068" }
 "ui.cursor.match" = { fg = "black", bg = "#00ff00" }
-"ui.background.separator" = "gray"
+"ui.statusline.separator" = "#00ff00"
+"ui.background.separator" = "#222222"
+"ui.window" = "#444444"
 "ui.linenr" = "gray"
 "ui.linenr.selected" = { fg = "white", bg = "gray" }
 "ui.statusline" = { bg = "#222222", fg = "green" }
